@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <main>
+        <h3>Список постов</h3>
+        <ul>
+            {% for post in posts %}
+            <li>Title: {{ post.title }} Body: {{ post.body }}</li>
+            {% endfor %}
+        </ul>
+        <h3>Список категорий</h3>
+        <ul>
+            {% for category in categories %}
+            <li>Title: {{ category.title }}</li>
+            {% endfor %}
+        </ul>
+    </main>
+{% endblock %}

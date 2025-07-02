@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <main>
+        <h3>Список телефонов</h3>
+        <ul>
+            {% for phone in phones %}
+            <li>Model: {{ phone.name }} Price: {{ phone.price }}</li>
+            {% endfor %}
+        </ul>
+    </main>
+{% endblock %}
