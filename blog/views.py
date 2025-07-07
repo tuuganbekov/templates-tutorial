@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView
 
+from .forms import TestForm, PostForm
 from .models import Post, Category
 
 
@@ -11,7 +12,14 @@ def main_page(request):
         {'title': 'Post 3', 'body': 'Post 3 body'},
         {'title': 'Post 4', 'body': 'Post 4 body'},
     ]
-    return render(request, 'blog/blog_list.html', {'posts': post_list})
+    user_list = []
+    return render(
+        request, 'blog/blog_list.html', 
+        {
+            'posts': post_list,
+            'users': user_list
+        }
+        )
 
 
 def phones_list(request):
@@ -31,4 +39,16 @@ class PostListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
+        # print(f"CONTEXT: {context}")
         return context
+    
+
+def create_user(request):
+    if request.method == "POST":
+        form = TestForm(request.POST)
+        if form.is_valid():
+            print(f"valid data: {form.cleaned_data}")
+            return redirect('post_list')
+    else:
+        form = TestForm()
+    return render(request, 'blog/bio.html', {'form': form})
