@@ -16,8 +16,26 @@ class TestForm(forms.Form):
     email = forms.EmailField()
     age = forms.IntegerField(validators=[validate_age])
     is_active = forms.BooleanField()
-    password = forms.CharField(widget=forms.PasswordInput)
+    password1 = forms.CharField(widget=forms.PasswordInput, label="Придумайте пароль")
+    password2 = forms.CharField(widget=forms.PasswordInput, label="Подтвердите пароль")
     
+
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        if "gmail.com" not in email:
+            raise forms.ValidationError("Only Gmail")
+        return email
+
+    def clean(self):
+        cleaned_data = super().clean()
+        pass1 = cleaned_data["password1"]
+        pass2 = cleaned_data["password2"]
+
+        if pass1 != pass2:
+            # self.add_error("password2", "Passwords didn't match")
+            raise forms.ValidationError("Пароли должны совпадать")
+        return cleaned_data
+
 
 from .models import Post
 

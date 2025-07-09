@@ -48,6 +48,7 @@ def create_user(request):
         form = TestForm(request.POST)
         if form.is_valid():
             print(f"valid data: {form.cleaned_data}")
+            # work with data
             return redirect('post_list')
     else:
         form = TestForm()
