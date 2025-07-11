@@ -39,7 +39,12 @@ class TestForm(forms.Form):
 
 from .models import Post
 
-class PostForm(forms.ModelForm):
+class PostModeForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ["title", "body",]
+
+
+class PostForm(forms.Form):
+    title = forms.CharField(max_length=200)
+    body = forms.CharField(widget=forms.Textarea())

@@ -43,13 +43,17 @@ class PostListView(ListView):
         return context
     
 
-def create_user(request):
+def create_post(request):
     if request.method == "POST":
-        form = TestForm(request.POST)
+        form = PostForm(request.POST)
         if form.is_valid():
-            print(f"valid data: {form.cleaned_data}")
             # work with data
+            print(f"valid data: {form.cleaned_data}")
+            Post.objects.create(
+                title=form.cleaned_data.get("title"),
+                body=form.cleaned_data.get("body"),
+            )
             return redirect('post_list')
     else:
-        form = TestForm()
+        form = PostForm()
     return render(request, 'blog/bio.html', {'form': form})
